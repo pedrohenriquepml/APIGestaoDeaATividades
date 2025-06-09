@@ -36,6 +36,6 @@ public class Projeto {
     public Usuario usuario;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "Projeto", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL) // corrigido "Projeto" para "projeto"
     public List<Atividades> atividades;
 }

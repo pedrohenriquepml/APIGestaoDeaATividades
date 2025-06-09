@@ -1,11 +1,6 @@
 package com.apigestaoatividades.apigestaoatividades.models;
 
 import java.util.Date;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -65,10 +59,6 @@ public class Atividades {
     @ManyToOne
     @JoinColumn(name = "projeto_id")
     public Projeto projeto;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL)
-    public List<Atividades> atividades;
 
     public void setId(Long id) {
         this.id = id;
