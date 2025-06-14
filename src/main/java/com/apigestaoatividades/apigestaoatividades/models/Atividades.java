@@ -1,7 +1,11 @@
 package com.apigestaoatividades.apigestaoatividades.models;
 
 import java.util.Date;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -27,7 +32,7 @@ public class Atividades {
     public String nome;
 
     @Size(max=300, message="A descrição não pode ultrapassar a 300 caracteres")
-    @Column(name = "decricao", columnDefinition = "varchar(300)", nullable = true)
+    @Column(name = "descricao", columnDefinition = "varchar(300)", nullable = true)
     public String descricao;
 
     @NotBlank(message="A data nao pode estar em branco")
@@ -35,13 +40,11 @@ public class Atividades {
     @Column(name ="data_inicio", columnDefinition = "DATE",nullable = false)
     public Date data_inicio = new Date();
 
-    @NotBlank(message="A nao nao pode estar em branco")
     @NotNull(message="A data precisa ser definida")
     @Column(name ="data_final", columnDefinition = "DATE",nullable = false)
     public Date data_final = new Date();
 
-    @NotBlank(message="A nao precisa pode estar em branco")
-    @NotNull(message="A data precisa ser definida")
+    @NotNull(message="A prioridade precisa ser definida")
     @Enumerated(EnumType.STRING)
     @Column(name = "nv_prioridade", columnDefinition = "Varchar(5)",nullable = false)
     public Prioridade nv_prioridade;
@@ -59,8 +62,17 @@ public class Atividades {
     @JoinColumn(name = "gestor_id")
     public Usuario usuario;
 
-    @JoinColumn(name = "projeto")
+    @ManyToOne
+    @JoinColumn(name = "projeto_id")
     public Projeto projeto;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL)
+    public List<Atividades> atividades;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 
 }
